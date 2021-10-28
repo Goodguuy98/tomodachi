@@ -1,6 +1,3 @@
-let action = 0
-let Mood = 0
-let Pitch = 0
 input.onButtonPressed(Button.A, function () {
     action = 1
     while (input.buttonIsPressed(Button.A)) {
@@ -11,6 +8,20 @@ input.onButtonPressed(Button.A, function () {
             # . . . #
             . # # # .
             `)
+    }
+    action = 0
+})
+input.onGesture(Gesture.TiltLeft, function () {
+    action = 1
+    while (input.isGesture(Gesture.TiltLeft)) {
+        basic.showLeds(`
+            # . # . .
+            # . # . .
+            . . . . .
+            # . # . .
+            . # . . .
+            `)
+        soundExpression.spring.play()
     }
     action = 0
 })
@@ -113,6 +124,20 @@ input.onButtonPressed(Button.B, function () {
     }
     action = 1
 })
+input.onGesture(Gesture.TiltRight, function () {
+    action = 1
+    while (input.isGesture(Gesture.TiltRight)) {
+        basic.showLeds(`
+            . . # . #
+            . . # . #
+            . . . . .
+            . . # . #
+            . . . # .
+            `)
+        soundExpression.spring.play()
+    }
+    action = 0
+})
 input.onLogoEvent(TouchButtonEvent.Touched, function () {
     action = 1
     Pitch = 0
@@ -196,9 +221,6 @@ input.onLogoEvent(TouchButtonEvent.Touched, function () {
     }
     action = 0
 })
-control.onEvent(EventBusSource.MICROBIT_ID_BUTTON_A, EventBusValue.MICROBIT_EVT_ANY, function () {
-	
-})
 function idleAnim (Mood: number) {
     basic.showLeds(`
         . # . # .
@@ -215,7 +237,18 @@ function idleAnim (Mood: number) {
         # . . . #
         . # # # .
         `)
+    basic.showLeds(`
+        . # . # .
+        . # . # .
+        . . . . .
+        # . . . #
+        . # # # .
+        `)
 }
+let Pitch = 0
+let Mood = 0
+let action = 0
+Intro()
 basic.forever(function () {
     if (action == 0) {
         idleAnim(1)
